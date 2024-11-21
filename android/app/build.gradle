@@ -1,0 +1,77 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace = "com.techexam.technical_exam_flutter_dart"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "com.techexam.technical_exam_flutter_dart"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+//        applicationVariants.all{
+//                // this method is use to rename your all apk weather
+//                // it may be signed or unsigned(debug apk)
+//            variant ->
+//                variant.outputs.each{
+//                        // on below line we are setting a name to our apk
+//                    output->
+//                        // on below line we are specifying our app name.
+//                        project.ext { appName = 'techexam' }
+//                        // on below line we are adding the formatted date to our apk file name.
+//                        def formattedDate = new Date().format('yyyyMMdd')
+//                        // on below line we are creating a new name for our apk.
+//                        def newName = output.outputFile.name
+//                        // on below line we are replacing our previous name with our app name.
+//                        newName = newName.replace("app-", "$project.ext.appName-")
+//                        // on below line we are replacing -debug with our formatted date.
+//                        newName = newName.replace("-release", "-release-v"+ flutterVersionName + "b" + flutterVersionCode + "-" + formattedDate)
+//                        // at last we are setting our apk name to it.
+//                        output.outputFileName  = newName
+//                }
+//        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
